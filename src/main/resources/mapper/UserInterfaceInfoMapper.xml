@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- @author <a href="https://github.com/liyupi">程序员鱼皮</a> -->
-<!-- @from <a href="https://yupi.icu">编程导航知识星球</a> -->
+
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.yupi.project.mapper.UserInterfaceInfoMapper">
+<mapper namespace="com.fh.project.mapper.UserInterfaceInfoMapper">
 
-    <resultMap id="BaseResultMap" type="com.yupi.yuapicommon.model.entity.UserInterfaceInfo">
+    <resultMap id="BaseResultMap" type="com.fh.jrapicommon.model.entity.UserInterfaceInfo">
             <id property="id" column="id" jdbcType="BIGINT"/>
             <result property="userId" column="userId" jdbcType="BIGINT"/>
             <result property="interfaceInfoId" column="interfaceInfoId" jdbcType="BIGINT"/>
@@ -25,7 +24,7 @@
         totalNum,leftNum,status,
         createTime,updateTime,isDelete
     </sql>
-    <select id="listTopInvokeInterfaceInfo" resultType="com.yupi.yuapicommon.model.entity.UserInterfaceInfo">
+    <select id="listTopInvokeInterfaceInfo" resultType="com.fh.jrapicommon.model.entity.UserInterfaceInfo">
         select interfaceInfoId, sum(totalNum) as totalNum from user_interface_info group by interfaceInfoId
         order by totalNum desc limit #{limit};
     </select>
