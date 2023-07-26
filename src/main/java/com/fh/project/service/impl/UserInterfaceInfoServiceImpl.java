@@ -56,11 +56,6 @@ public class UserInterfaceInfoServiceImpl extends ServiceImpl<UserInterfaceInfoM
         if(us == null){
             throw new BusinessException(ErrorCode.NOT_FOUND_ERROR, "不存在该记录，请联系管理员添加");
         }
-        //   存在，此时应判断调用次数是否大于0
-        if (us.getLeftNum() <= 0) {
-            return false;
-        }
-        Integer leftNum = us.getLeftNum();
         UpdateWrapper<UserInterfaceInfo> updateWrapper = new UpdateWrapper<>();
         updateWrapper.eq("interfaceInfoId", interfaceInfoId);
         updateWrapper.eq("userId", userId);

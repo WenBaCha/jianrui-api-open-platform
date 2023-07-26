@@ -5,7 +5,7 @@ import cn.hutool.http.HttpRequest;
 import cn.hutool.http.HttpResponse;
 import cn.hutool.http.HttpUtil;
 import cn.hutool.json.JSONUtil;
-
+import com.fh.jrapiclientsdk.model.User;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -26,7 +26,7 @@ public class JrApiClient {
     private static String secretKey;
     // 创建url和对应接口的映射关系
     private static HashMap<String, Function<Object,Object>> urlWithFunction;
-    private static final String urlPrefix = "http://localhost:8123/interface";
+
     public JrApiClient(String accessKey, String secretKey) {
         this.accessKey = accessKey;
         this.secretKey = secretKey;
@@ -37,7 +37,7 @@ public class JrApiClient {
      */
     static {
         urlWithFunction = new HashMap<>();
-        urlWithFunction.put(urlPrefix + "/getName", JrApiClient::getUsernameByPost);
+        urlWithFunction.put(GATEWAY_HOST + "/api/name/user", JrApiClient::getUsernameByPost);
     }
 
     /**
@@ -48,23 +48,6 @@ public class JrApiClient {
      */
     public Object getInterfaceByUrl(String url, Object requestBody){
         return urlWithFunction.get(url).apply(requestBody);
-    }
-    public String getNameByGet(String name) {
-        //可以单独传入http参数，这样参数会自动做URL编码，拼接在URL中
-        HashMap<String, Object> paramMap = new HashMap<>();
-        paramMap.put("name", name);
-        String result = HttpUtil.get(GATEWAY_HOST + "/api/name/", paramMap);
-        System.out.println(result);
-        return result;
-    }
-
-    public String getNameByPost(String name) {
-        //可以单独传入http参数，这样参数会自动做URL编码，拼接在URL中
-        HashMap<String, Object> paramMap = new HashMap<>();
-        paramMap.put("name", name);
-        String result = HttpUtil.post(GATEWAY_HOST + "/api/name/", paramMap);
-        System.out.println(result);
-        return result;
     }
 
     private static Map<String, String> getHeaderMap(String body) {

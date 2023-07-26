@@ -42,13 +42,13 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
     private InterfaceInfoService interfaceInfoService;
 
     @Resource
-    private InterfaceInfoMapper  interfaceInfoMapper;
+    private InterfaceInfoMapper interfaceInfoMapper;
     @Resource
     private UserInterfaceInfoService userInterfaceInfoService;
     /**
      * 盐值，混淆密码
      */
-    private static final String SALT = "yupi";
+    private static final String SALT = "fh";
 
     @Override
     public long userRegister(String userAccount, String userPassword, String checkPassword) {
@@ -117,7 +117,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
         queryWrapper.eq("userAccount", userAccount);
         queryWrapper.eq("userPassword", encryptPassword);
         User user = userMapper.selectOne(queryWrapper);
-        // 用户不存在
+        // 用户不存在b0dd3697a192885d7c055db46155b26a
         if (user == null) {
             log.info("user login failed, userAccount cannot match userPassword");
             throw new BusinessException(ErrorCode.PARAMS_ERROR, "用户不存在或密码错误");

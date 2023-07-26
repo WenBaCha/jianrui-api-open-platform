@@ -167,7 +167,6 @@ public class InterfaceInfoController {
 
     /**
      * 分页获取列表
-     *
      * @param interfaceInfoQueryRequest
      * @param request
      * @return
@@ -290,10 +289,14 @@ public class InterfaceInfoController {
         String accessKey = loginUser.getAccessKey();
         String secretKey = loginUser.getSecretKey();
         JrApiClient tempClient = new JrApiClient(accessKey, secretKey);
+        // 根据id从数据库中查找接口
+        InterfaceInfo interfaceInfo = interfaceInfoService.query().eq("id", id).one();
         Gson gson = new Gson();
-        com.fh.jrapiclientsdk.model.User user = gson.fromJson(userRequestParams, com.fh.jrapiclientsdk.model.User.class);
-        String usernameByPost = tempClient.getUsernameByPost(user);
-        return ResultUtils.success(usernameByPost);
+        Object body = gson.fromJson(userRequestParams, Object.class);
+        // 根据查出的接口的url调用对应的方法
+        Object result = tempClient.getInterfaceByUrl(interfaceInfo.getUrl(), body);
+        // 调用成功返回结果,调用失败则返回异常
+        return result != null ? ResultUtils.success(result) : ResultUtils.error(ErrorCode.SYSTEM_ERROR);
     }
 
 }

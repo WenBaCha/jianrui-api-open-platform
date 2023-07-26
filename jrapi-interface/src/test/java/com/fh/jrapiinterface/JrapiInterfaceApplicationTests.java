@@ -20,12 +20,7 @@ class JrapiInterfaceApplicationTests {
 
     @Test
     void contextLoads() {
-        String result = jrApiClient.getNameByGet("fh");
-        User user = new User();
-        user.setUsername("saf");
-        String usernameByPost = jrApiClient.getUsernameByPost(user);
-        System.out.println(result);
-        System.out.println(usernameByPost);
+
     }
 
 }

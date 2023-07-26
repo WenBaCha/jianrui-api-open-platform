@@ -16,7 +16,6 @@ import org.springframework.core.io.buffer.DataBuffer;
 import org.springframework.core.io.buffer.DataBufferFactory;
 import org.springframework.core.io.buffer.DataBufferUtils;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.http.server.reactive.ServerHttpResponse;
@@ -60,6 +59,7 @@ public class CustomGlobalFilter implements GlobalFilter, Ordered {
         String method = request.getMethod().toString();
         log.info("请求唯一标识：" + request.getId());
         log.info("请求路径：" + path);
+
         log.info("请求方法：" + method);
         log.info("请求参数：" + request.getQueryParams());
         String sourceAddress = request.getLocalAddress().getHostString();
@@ -113,11 +113,12 @@ public class CustomGlobalFilter implements GlobalFilter, Ordered {
         if (interfaceInfo == null) {
             return handleNoAuth(response);
         }
-        // 是否还有调用次数
-
-        // 5. 请求转发，调用模拟接口 + 响应日志
-        //        Mono<Void> filter = chain.filter(exchange);
-        //        return filter;
+        // 5.判断是否还有调用次数
+        if (!innerUserInterfaceInfoService.isLeft(interfaceInfo.getId(), invokeUser.getId())) {
+            return handleNoAuth(response);
+        }
+        System.out.println("请求转发中");
+        // 6. 请求转发，调用模拟接口 + 响应日志
         return handleResponse(exchange, chain, interfaceInfo.getId(), invokeUser.getId());
 
     }

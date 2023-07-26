@@ -1,6 +1,8 @@
 package com.fh.jrapicommon.model.entity;
 
 import com.baomidou.mybatisplus.annotation.*;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fh.jrapicommon.model.constants.Constants;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -70,11 +72,13 @@ public class InterfaceInfo implements Serializable {
     /**
      * 创建时间
      */
+    @JsonFormat(pattern=Constants.DATETIME_FORMAT, timezone = Constants.TIME_ZONE)
     private Date createTime;
 
     /**
      * 更新时间
      */
+    @JsonFormat(pattern=Constants.DATETIME_FORMAT, timezone = Constants.TIME_ZONE)
     private Date updateTime;
 
     /**

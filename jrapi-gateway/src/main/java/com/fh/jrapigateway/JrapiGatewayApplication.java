@@ -22,8 +22,6 @@ import org.springframework.stereotype.Service;
 @EnableDubbo
 @Service
 public class JrapiGatewayApplication {
-
-
     public static void main(String[] args) {
         SpringApplication.run(JrapiGatewayApplication.class, args);
     }

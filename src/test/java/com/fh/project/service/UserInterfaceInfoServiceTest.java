@@ -25,6 +25,6 @@ public class UserInterfaceInfoServiceTest {
 
     @Test
     void testDistributeInterfaceInvokeTimes() {
-        userInterfaceInfoService.distributeInterfaceInvokeTimes(21L,1L,2);
+        userInterfaceInfoService.distributeInterfaceInvokeTimes(21L,1668863283244830722L,2);
     }
 }
