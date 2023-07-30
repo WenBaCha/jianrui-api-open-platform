@@ -1,5 +1,7 @@
 package com.fh.jrapicommon.model.vo;
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -15,6 +17,7 @@ public class UserVO implements Serializable {
     /**
      * id
      */
+    @JsonSerialize(using = ToStringSerializer.class)
     private Long id;
 
     /**
@@ -41,6 +44,15 @@ public class UserVO implements Serializable {
      * 用户角色: user, admin
      */
     private String userRole;
+    /**
+     * 签名 accessKey
+     */
+    private String accessKey;
+
+    /**
+     * 签名 secretKey
+     */
+    private String secretKey;
 
     /**
      * 创建时间

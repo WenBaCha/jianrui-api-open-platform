@@ -19,11 +19,12 @@ logging:
           gateway: trace
 dubbo:
   application:
-    name: dubbo-springboot-demo-provider
+    name: inner-service-consumer
   protocol:
     name: dubbo
     port: -1
   registry:
     id: nacos-registry
     address: nacos://localhost:8848
-
+  cloud:
+    subscribed-services: inner-service-provider

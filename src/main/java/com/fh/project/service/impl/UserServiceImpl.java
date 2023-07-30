@@ -24,6 +24,8 @@ import javax.servlet.http.HttpServletRequest;
 
 import java.util.List;
 
+import static com.fh.jrapicommon.model.constants.Constants.SALT;
+
 
 /**
  * 用户服务实现类
@@ -48,7 +50,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
     /**
      * 盐值，混淆密码
      */
-    private static final String SALT = "fh";
+
 
     @Override
     public long userRegister(String userAccount, String userPassword, String checkPassword) {
@@ -117,7 +119,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
         queryWrapper.eq("userAccount", userAccount);
         queryWrapper.eq("userPassword", encryptPassword);
         User user = userMapper.selectOne(queryWrapper);
-        // 用户不存在b0dd3697a192885d7c055db46155b26a
+        // 用户不存在
         if (user == null) {
             log.info("user login failed, userAccount cannot match userPassword");
             throw new BusinessException(ErrorCode.PARAMS_ERROR, "用户不存在或密码错误");

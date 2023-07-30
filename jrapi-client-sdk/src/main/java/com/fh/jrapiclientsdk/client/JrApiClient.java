@@ -1,11 +1,12 @@
 package com.fh.jrapiclientsdk.client;
 
+import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.util.RandomUtil;
 import cn.hutool.http.HttpRequest;
 import cn.hutool.http.HttpResponse;
 import cn.hutool.http.HttpUtil;
 import cn.hutool.json.JSONUtil;
-import com.fh.jrapiclientsdk.model.User;
+import com.fh.jrapicommon.model.entity.User;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -63,7 +64,8 @@ public class JrApiClient {
     }
 
     public static String getUsernameByPost(Object user) {
-        String json = JSONUtil.toJsonStr(user);
+        User bean = BeanUtil.toBean(user, User.class);
+        String json = JSONUtil.toJsonStr(bean);
         HttpResponse httpResponse = HttpRequest.post(GATEWAY_HOST + "/api/name/user")
                 .addHeaders(getHeaderMap(json))
                 .body(json)

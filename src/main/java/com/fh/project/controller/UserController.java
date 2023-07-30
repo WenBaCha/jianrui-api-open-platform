@@ -1,8 +1,11 @@
 package com.fh.project.controller;
 
+import cn.hutool.core.util.RandomUtil;
+import cn.hutool.crypto.digest.DigestUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.plugins.pagination.PageDTO;
+import com.fh.jrapicommon.model.constants.Constants;
 import com.fh.project.common.BaseResponse;
 import com.fh.project.common.DeleteRequest;
 import com.fh.project.common.ErrorCode;
@@ -20,6 +23,7 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.stream.Collectors;
+
 
 /**
  * 用户接口
@@ -170,13 +174,17 @@ public class UserController {
      * @return
      */
     @GetMapping("/get")
-    public BaseResponse<UserVO> getUserById(int id, HttpServletRequest request) {
-        if (id <= 0) {
+    public BaseResponse<UserVO> getUserById(String id, HttpServletRequest request) {
+        Long  idCur = Long.parseLong(id);
+        if (idCur <= 0) {
             throw new BusinessException(ErrorCode.PARAMS_ERROR);
         }
         User user = userService.getById(id);
+        if(user == null){
+            throw new BusinessException(ErrorCode.NOT_FOUND_ERROR);
+        }
         UserVO userVO = new UserVO();
-        BeanUtils.copyProperties(user, userVO);
+        BeanUtils.copyProperties(user,userVO);
         return ResultUtils.success(userVO);
     }
 
@@ -233,4 +241,13 @@ public class UserController {
     }
 
     // endregion
+
+    @PostMapping("/updateSecreteKey")
+    public BaseResponse<Boolean> updateSecretKey(Long id, HttpServletRequest request){
+        User user = userService.getById(id);
+        String secretKey = DigestUtil.md5Hex(Constants.SALT + user.getUserAccount() + RandomUtil.randomNumbers(8));
+        user.setSecretKey(secretKey);
+        boolean isSuccess = userService.updateById(user);
+        return ResultUtils.success(isSuccess);
+    }
 }

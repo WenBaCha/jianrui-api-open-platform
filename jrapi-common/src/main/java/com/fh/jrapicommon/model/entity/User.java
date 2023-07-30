@@ -1,6 +1,10 @@
 package com.fh.jrapicommon.model.entity;
 
 import com.baomidou.mybatisplus.annotation.*;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
+import com.fh.jrapicommon.model.constants.Constants;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -18,6 +22,7 @@ public class User implements Serializable {
      * id
      */
     @TableId(type = IdType.AUTO)
+    @JsonSerialize(using = ToStringSerializer.class)
     private Long id;
 
     /**
@@ -63,11 +68,13 @@ public class User implements Serializable {
     /**
      * 创建时间
      */
+    @JsonFormat(pattern=Constants.DATETIME_FORMAT, timezone = Constants.TIME_ZONE)
     private Date createTime;
 
     /**
      * 更新时间
      */
+    @JsonFormat(pattern= Constants.DATETIME_FORMAT, timezone = Constants.TIME_ZONE)
     private Date updateTime;
 
     /**
@@ -76,8 +83,7 @@ public class User implements Serializable {
     @TableLogic
     private Integer isDelete;
 
-    // [鱼皮的学习圈](https://yupi.icu) 从 0 到 1 求职指导，斩获 offer！1 对 1 简历优化服务、2000+ 求职面试经验分享、200+ 真实简历和建议参考、25w 字前后端精选面试题
-
+    
     @TableField(exist = false)
     private static final long serialVersionUID = 1L;
 }

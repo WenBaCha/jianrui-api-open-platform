@@ -1,10 +1,12 @@
 package com.fh.project.service;
 
+import com.fh.jrapicommon.model.entity.InterfaceInfo;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 /**
  * 用户接口信息服务测试
@@ -17,6 +19,8 @@ public class UserInterfaceInfoServiceTest {
     @Resource
     private UserInterfaceInfoService userInterfaceInfoService;
 
+    @Resource
+    private InterfaceInfoService interfaceInfoService;
     @Test
     public void invokeCount() {
         boolean b = userInterfaceInfoService.invokeCount(1L, 1L);
@@ -25,6 +29,10 @@ public class UserInterfaceInfoServiceTest {
 
     @Test
     void testDistributeInterfaceInvokeTimes() {
-        userInterfaceInfoService.distributeInterfaceInvokeTimes(21L,1668863283244830722L,2);
+        List<InterfaceInfo> interfaceInfos = interfaceInfoService.list();
+        for(InterfaceInfo interfaceInfo : interfaceInfos){
+            userInterfaceInfoService.distributeInterfaceInvokeTimes(interfaceInfo.getId(),1676894789951356931L,50);
+        }
+
     }
 }
