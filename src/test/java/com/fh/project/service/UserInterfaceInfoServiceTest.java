@@ -30,6 +30,7 @@ public class UserInterfaceInfoServiceTest {
     @Test
     void testDistributeInterfaceInvokeTimes() {
         List<InterfaceInfo> interfaceInfos = interfaceInfoService.list();
+
         for(InterfaceInfo interfaceInfo : interfaceInfos){
             userInterfaceInfoService.distributeInterfaceInvokeTimes(interfaceInfo.getId(),1676894789951356931L,50);
         }

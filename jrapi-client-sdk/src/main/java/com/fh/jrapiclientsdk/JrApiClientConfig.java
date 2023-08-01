@@ -8,21 +8,21 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 
 /**
- * YuApi 客户端配置
+ * JrApi 客户端配置
  *
  */
 @Configuration
-@ConfigurationProperties("yuapi.client")
+@ConfigurationProperties("jrapi.client")
 @Data
 @ComponentScan
-public class YuApiClientConfig {
+public class JrApiClientConfig {
 
     private String accessKey;
 
     private String secretKey;
 
     @Bean
-    public JrApiClient yuApiClient() {
+    public JrApiClient jrApiClient() {
         return new JrApiClient(accessKey, secretKey);
     }
 

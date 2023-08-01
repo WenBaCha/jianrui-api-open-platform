@@ -14,7 +14,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @MapperScan("com.fh.project.mapper")
 @EnableDubbo
 public class MyApplication {
-
     public static void main(String[] args) {
         SpringApplication.run(MyApplication.class, args);
     }

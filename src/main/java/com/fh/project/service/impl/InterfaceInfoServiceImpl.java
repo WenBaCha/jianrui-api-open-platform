@@ -33,7 +33,18 @@ public class InterfaceInfoServiceImpl extends ServiceImpl<InterfaceInfoMapper, I
             throw new BusinessException(ErrorCode.PARAMS_ERROR, "名称过长");
         }
     }
-    
+
+    /**
+     * 新增接口
+     * @param interfaceInfo
+     * @return
+     */
+    @Override
+    public boolean addInterfaceInfo(InterfaceInfo interfaceInfo) {
+
+        return false;
+    }
+
 }
 
 

@@ -4,9 +4,8 @@ import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.util.RandomUtil;
 import cn.hutool.http.HttpRequest;
 import cn.hutool.http.HttpResponse;
-import cn.hutool.http.HttpUtil;
 import cn.hutool.json.JSONUtil;
-import com.fh.jrapicommon.model.entity.User;
+import com.fh.jrapiclientsdk.model.User;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -39,6 +38,7 @@ public class JrApiClient {
     static {
         urlWithFunction = new HashMap<>();
         urlWithFunction.put(GATEWAY_HOST + "/api/name/user", JrApiClient::getUsernameByPost);
+        urlWithFunction.put(GATEWAY_HOST + "/api/news/get", JrApiClient::getBaiduNews);
     }
 
     /**
@@ -74,5 +74,16 @@ public class JrApiClient {
         String result = httpResponse.body();
         System.out.println(result);
         return result;
+    }
+
+    public static String getBaiduNews(Object param){
+        String json = param.toString();
+        HttpResponse httpResponse = HttpRequest.post(GATEWAY_HOST + "/api/news/get")
+                .addHeaders(getHeaderMap(json))
+                .body(json)
+                .execute();
+        String body = httpResponse.body();
+        String jsonStr = JSONUtil.toJsonStr(body);
+        return jsonStr;
     }
 }
