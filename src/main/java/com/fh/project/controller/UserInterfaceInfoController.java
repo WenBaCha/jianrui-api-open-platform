@@ -2,6 +2,7 @@ package com.fh.project.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.fh.jrapicommon.model.entity.InterfaceInfo;
 import com.fh.project.annotation.AuthCheck;
 import com.fh.project.common.BaseResponse;
 import com.fh.project.common.DeleteRequest;
@@ -11,8 +12,10 @@ import com.fh.project.constant.CommonConstant;
 import com.fh.project.constant.UserConstant;
 import com.fh.project.exception.BusinessException;
 import com.fh.project.model.dto.userinterfaceinfo.UserInterfaceInfoAddRequest;
+import com.fh.project.model.dto.userinterfaceinfo.UserInterfaceInfoPayRequest;
 import com.fh.project.model.dto.userinterfaceinfo.UserInterfaceInfoQueryRequest;
 import com.fh.project.model.dto.userinterfaceinfo.UserInterfaceInfoUpdateRequest;
+import com.fh.project.service.InterfaceInfoService;
 import com.fh.project.service.UserInterfaceInfoService;
 import com.fh.project.service.UserService;
 import com.fh.jrapicommon.model.entity.User;
@@ -24,7 +27,9 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 接口管理
@@ -42,6 +47,8 @@ public class UserInterfaceInfoController {
     @Resource
     private UserService userService;
 
+    @Resource
+    private InterfaceInfoService interfaceInfoService;
     // region 增删改查
 
     /**
@@ -199,5 +206,29 @@ public class UserInterfaceInfoController {
     }
 
     // endregion
+    @PostMapping("/payInterface")
+    public BaseResponse<Boolean> payInterface(UserInterfaceInfoPayRequest queryRequest, HttpServletRequest request) {
+        boolean isSuccess = userInterfaceInfoService.payInterface(
+                queryRequest.getInterfaceName(),
+                queryRequest.getUserAccount(),
+                queryRequest.getTimes());
+
+        return isSuccess ? ResultUtils.success(Boolean.TRUE) : ResultUtils.error(40000, "用户或接口不存在");
+    }
+
+    /**
+     * 获取所有的接口名称
+     * @return
+     */
+    @GetMapping("/interfaceNameList")
+    public BaseResponse<Map> interfaceNameList(){
+        List<InterfaceInfo> list = interfaceInfoService.list();
+        Map interfaceNameMap=new HashMap();
+        for (InterfaceInfo interfaceInfo : list) {
+            String name = interfaceInfo.getName();
+            interfaceNameMap.put(interfaceInfo.getName(),interfaceInfo.getName());
+        }
+        return ResultUtils.success(interfaceNameMap);
+    }
 
 }

@@ -6,7 +6,7 @@ spring:
   # DataSource Config
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/yuapi
+    url: jdbc:mysql://localhost:3306/jrapi
     username: root
     password: 2001311yang
   mvc:

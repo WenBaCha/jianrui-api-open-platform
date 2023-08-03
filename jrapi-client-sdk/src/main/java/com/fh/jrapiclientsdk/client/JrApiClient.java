@@ -7,6 +7,7 @@ import cn.hutool.http.HttpResponse;
 import cn.hutool.json.JSONUtil;
 import com.fh.jrapiclientsdk.model.User;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
@@ -83,7 +84,7 @@ public class JrApiClient {
                 .body(json)
                 .execute();
         String body = httpResponse.body();
-        String jsonStr = JSONUtil.toJsonStr(body);
-        return jsonStr;
+
+        return body;
     }
 }

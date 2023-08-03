@@ -1,5 +1,7 @@
 package com.fh.jrapiinterface.controller;
 
+import cn.hutool.json.JSONUtil;
+import com.alibaba.fastjson.JSON;
 import com.fh.jrapiclientsdk.model.User;
 import com.fh.jrapiinterface.domain.entity.BaiduNews;
 import com.fh.jrapiinterface.service.BaiduNewsService;
@@ -29,8 +31,9 @@ public class NewsController {
      * @throws IOException
      */
     @PostMapping("/get")
-    public List<BaiduNews> getBaiduNews(HttpServletRequest request) throws IOException {
+    public String getBaiduNews(HttpServletRequest request) throws IOException {
         List<BaiduNews> baiduNews = baiduNewsService.getBaiduNews();
-        return baiduNews;
+        String json = JSON.toJSONString(baiduNews);
+        return json;
     }
 }

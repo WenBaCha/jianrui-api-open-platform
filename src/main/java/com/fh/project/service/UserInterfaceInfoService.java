@@ -10,7 +10,6 @@ import com.fh.jrapicommon.model.entity.UserInterfaceInfo;
  */
 public interface UserInterfaceInfoService extends IService<UserInterfaceInfo> {
 
-    // [导航学习圈](https://t.zsxq.com/0emozsIJh) 连接万名爱好者，一起优秀！20000+ 小伙伴交流分享、40+ 大厂嘉宾一对一答疑、4000+ 问答参考、100+ 各方向交流群
 
     void validUserInterfaceInfo(UserInterfaceInfo userInterfaceInfo, boolean add);
 
@@ -30,4 +29,13 @@ public interface UserInterfaceInfoService extends IService<UserInterfaceInfo> {
      * @return
      */
     boolean distributeInterfaceInvokeTimes(long interfaceId, long userId, int times);
+
+    /**
+     * 用户充值接口调用次数
+     * @param interfaceName
+     * @param userName
+     * @param times
+     * @return
+     */
+    boolean payInterface(String interfaceName, String userName, Integer times);
 }

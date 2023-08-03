@@ -1,5 +1,6 @@
 package com.fh.project.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.fh.project.exception.BusinessException;
@@ -27,6 +28,9 @@ public class UserInterfaceInfoServiceImpl extends ServiceImpl<UserInterfaceInfoM
     private UserMapper userMapper;
     @Resource
     private InterfaceInfoMapper interfaceInfoMapper;
+
+    @Resource
+    private UserInterfaceInfoMapper userInterfaceInfoMapper;
 
     @Override
     public void validUserInterfaceInfo(UserInterfaceInfo userInterfaceInfo, boolean add) {
@@ -98,6 +102,39 @@ public class UserInterfaceInfoServiceImpl extends ServiceImpl<UserInterfaceInfoM
             updateById(us);
         }
         return true;
+    }
+
+    @Override
+    public boolean payInterface(String interfaceName, String userAccount, Integer times) {
+        QueryWrapper<InterfaceInfo> infoQueryWrapper = new QueryWrapper<>();
+        infoQueryWrapper.eq("name",interfaceName);
+        InterfaceInfo interfaceInfo = interfaceInfoMapper.selectOne(infoQueryWrapper);
+
+        QueryWrapper<User> userQueryWrapper = new QueryWrapper<>();
+        userQueryWrapper.eq("userAccount", userAccount);
+        User user = userMapper.selectOne(userQueryWrapper);
+        // 判断是否存在该用户/接口
+        if(user == null || interfaceInfo == null){
+            return false;
+        }
+        // 从数据库中查找到userInterfaceInfo
+        QueryWrapper<UserInterfaceInfo> userInterfaceInfoQueryWrapper = new QueryWrapper<>();
+        userInterfaceInfoQueryWrapper.eq("interfaceInfoId", interfaceInfo.getId());
+        userInterfaceInfoQueryWrapper.eq("userId", user.getId());
+        UserInterfaceInfo userInterfaceInfo = userInterfaceInfoMapper.selectOne(userInterfaceInfoQueryWrapper);
+        // 判断是否有该对应的记录
+        if (userInterfaceInfo == null) {
+            UserInterfaceInfo userInterfaceInfo1 = new UserInterfaceInfo();
+            userInterfaceInfo1.setUserId(user.getId());
+            userInterfaceInfo1.setInterfaceInfoId(interfaceInfo.getId());
+            userInterfaceInfo1.setLeftNum(times);
+            userInterfaceInfoMapper.insert(userInterfaceInfo1);
+        }else{
+            // 更新数据库中的剩余调用次数
+            userInterfaceInfo.setLeftNum(userInterfaceInfo.getLeftNum() + times);
+            userInterfaceInfoMapper.updateById(userInterfaceInfo);
+        }
+         return true;
     }
 
 }

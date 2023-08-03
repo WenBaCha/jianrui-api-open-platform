@@ -9,7 +9,7 @@ spring:
   # DataSource Config
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/yuapi?useSSL=false&useUnicode=true&characterEncoding=utf-8&serverTimezone=GMT%2B8
+    url: jdbc:mysql://localhost:3306/jrapi?useSSL=false&useUnicode=true&characterEncoding=utf-8&serverTimezone=GMT%2B8
     username: root
     password: 2001311yang
   mvc:

@@ -94,7 +94,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
             //  5.注册时须为该用户分配每个接口的调用次数
             List<InterfaceInfo> interfaceInfos = interfaceInfoService.list();
             for(InterfaceInfo  interfaceInfo : interfaceInfos){
-                userInterfaceInfoService.distributeInterfaceInvokeTimes(interfaceInfo.getId(), user.getId(), 50);
+                userInterfaceInfoService.distributeInterfaceInvokeTimes(interfaceInfo.getId(), user.getId (), 50);
             }
             return user.getId();
         }
